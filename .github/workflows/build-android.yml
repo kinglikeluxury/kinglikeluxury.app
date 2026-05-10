@@ -43,9 +43,9 @@ jobs:
           keytool -genkeypair \
             -dname "CN=Kinglike Luxury, OU=Mobile Development, O=Kinglike Luxury Real Estate, L=Tbilisi, S=Georgia, C=GE" \
             -alias kinglikeluxury \
-            -keypass kinglikeluxury123 \
+            -keypass ${{ secrets.KEY_PASSWORD }} \
             -keystore ./android/app/keystores/kinglikeluxury-key.keystore \
-            -storepass kinglikeluxury123 \
+            -storepass ${{ secrets.KEYSTORE_PASSWORD }} \
             -validity 10000 \
             -keyalg RSA \
             -keysize 2048 \
