@@ -30,6 +30,7 @@ import ChangePassword from "@/pages/change-password";
 import ForgotPassword from "@/pages/forgot-password";
 import PrivacyPolicy from "@/pages/privacy-policy";
 import Terms from "@/pages/terms";
+import PrivacyTerms from "@/pages/privacy-terms";
 import InstallPWA from "@/components/InstallPWA";
 import { useTranslation } from "react-i18next";
 import { useEffect } from "react";
@@ -65,8 +66,9 @@ function Router() {
           <Route path="/payment/fail" component={PaymentFail} />
           <Route path="/change-password" component={ChangePassword} />
           <Route path="/forgot-password" component={ForgotPassword} />
-          <Route path="/privacy-policy" component={PrivacyPolicy} />
+          <Route path="/privacy-policy" component={PrivacyTerms} />
           <Route path="/terms" component={Terms} />
+          <Route path="/privacy-terms" component={PrivacyTerms} />
           <Route component={NotFound} />
         </Switch>
       </main>
