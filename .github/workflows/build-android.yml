@@ -5,7 +5,7 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-  workflow_dispatch:  # Allows manual triggering from GitHub UI
+  workflow_dispatch:
 
 jobs:
   build:
@@ -28,22 +28,21 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 16
-          cache: 'npm'
 
       - name: Install dependencies
         run: npm install
 
-      - name: Build APK (debug)
-        run: ./gradlew assemleDebug
+      - name: Make Gradle executable
+        run: chmod +x ./gradlew
 
       - name: Generate Keystore
-        run:
-          mkdir -p ./android/app/keystores
+        run: |
+          mkdir -p ./app/keystores
           keytool -genkeypair \
             -dname "CN=Kinglike Luxury, OU=Mobile Development, O=Kinglike Luxury Real Estate, L=Tbilisi, S=Georgia, C=GE" \
             -alias kinglikeluxury \
             -keypass ${{ secrets.KEY_PASSWORD }} \
-            -keystore ./android/app/keystores/kinglikeluxury-key.keystore \
+            -keystore ./app/keystores/kinglikeluxury-key.keystore \
             -storepass ${{ secrets.KEYSTORE_PASSWORD }} \
             -validity 10000 \
             -keyalg RSA \
@@ -51,23 +50,19 @@ jobs:
             -storetype JKS
 
       - name: Build APK (debug)
-        run: |
-         chmod +x gradlew
-         ./gradlew assembleDebug
+        run: ./gradlew assembleDebug
 
       - name: Build APK (release)
-        run: |
-         chmod +x gradlew
-         ./gradlew assembleRelease
+        run: ./gradlew assembleRelease
 
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4
         with:
           name: kinglike-luxury-debug
-          path: mobile-app/android/app/build/outputs/apk/debug/app-debug.apk
+          path: kinglike-mobile/mobile-app/android/app/build/outputs/apk/debug/app-debug.apk
 
       - name: Upload Release APK
         uses: actions/upload-artifact@v4
         with:
           name: kinglike-luxury-release
-          path: mobile-app/android/app/build/outputs/apk/release/app-release.apk
+          path: kinglike-mobile/mobile-app/android/app/build/outputs/apk/release/app-release.apk
