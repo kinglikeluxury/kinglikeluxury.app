@@ -1,4 +1,4 @@
-# Kinglike Luxury Mobile App
+  # Kinglike Luxury Mobile App
 
 A React Native mobile application for browsing luxury real estate properties.
 
@@ -70,4 +70,4 @@ mobile-app/
 
 ## API Integration
 
-The app connects to the Kinglike Luxury backend API to fetch property data, handle authentication, and manage user interactions. The API service is configured in `src/lib/api.ts`.
+The app connects to the Kinglike Luxury backend API to fetch property data, handle authentication, and manage user interactions. The API service is configured in `src/lib/api.ts`.ز
