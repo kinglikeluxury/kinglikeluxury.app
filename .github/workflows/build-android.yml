@@ -3,8 +3,6 @@ name: Build Android APK
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
   workflow_dispatch:
 
 jobs:
@@ -30,6 +28,7 @@ jobs:
           node-version: 16
 
       - name: Install dependencies
+        working-directory: kinglike-mobile/mobile-app
         run: npm install
 
       - name: Make Gradle executable
@@ -37,11 +36,11 @@ jobs:
 
       - name: Generate Keystore
         run: |
+          rm -f ./app/keystores/kinglikeluxury-key.keystore
           mkdir -p ./app/keystores
           keytool -genkeypair \
             -dname "CN=Kinglike Luxury, OU=Mobile Development, O=Kinglike Luxury Real Estate, L=Tbilisi, S=Georgia, C=GE" \
             -alias kinglikeluxury \
-            -keypass "${{ secrets.KEY_PASSWORD }}" \
             -keystore ./app/keystores/kinglikeluxury-key.keystore \
             -storepass "${{ secrets.KEYSTORE_PASSWORD }}" \
             -validity 10000 \
@@ -51,14 +50,10 @@ jobs:
             -noprompt
 
       - name: Build APK (debug)
-        run: |
-          chmod +x ./gradlew
-          ./gradlew assembleDebug
+        run: ./gradlew assembleDebug
 
       - name: Build APK (release)
-        run: |
-          chmod +x ./gradlew
-          ./gradlew assembleRelease
+        run: ./gradlew assembleRelease
 
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4
