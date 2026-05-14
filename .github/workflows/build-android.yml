@@ -34,7 +34,7 @@ jobs:
         run: npm install
 
       - name: Make Gradle executable
-        run: chmod +x android/gradlew
+        run: cd android && chmod +x gradlew
 
       - name: Generate Keystore
         run: chmod +x ./android/gradlew
