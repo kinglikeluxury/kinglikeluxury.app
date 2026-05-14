@@ -1,11 +1,19 @@
 import { QueryClient, QueryFunction } from "@tanstack/react-query";
 
 const API_BASE =
-  import.meta.env.VITE_API_URL || "https://real-estate-hub-kinglikeluxury.replit.app";
+  (import.meta.env.VITE_API_URL || "https://real-estate-hub-kinglikeluxury.replit.app").replace(/\/$/, "");
 
 function apiUrl(url: string) {
-  if (url.startsWith("http")) return url;
-  if (url.startsWith("/api")) return `${API_BASE}${url}`;
+  if (!url) return API_BASE;
+
+  if (url.startsWith("http://") || url.startsWith("https://")) {
+    return url;
+  }
+
+  if (url.startsWith("/api")) {
+    return `${API_BASE}${url}`;
+  }
+
   return url;
 }
 
@@ -19,13 +27,14 @@ async function throwIfResNotOk(res: Response) {
 export async function apiRequest(
   method: string,
   url: string,
-  data?: unknown | undefined,
+  data?: unknown,
 ): Promise<Response> {
   const res = await fetch(apiUrl(url), {
     method,
     headers: data ? { "Content-Type": "application/json" } : {},
     body: data ? JSON.stringify(data) : undefined,
     credentials: "include",
+    mode: "cors",
   });
 
   await throwIfResNotOk(res);
@@ -39,12 +48,15 @@ export const getQueryFn: <T>(options: {
 }) => QueryFunction<T> =
   ({ on401: unauthorizedBehavior }) =>
   async ({ queryKey }) => {
-    const res = await fetch(apiUrl(queryKey[0] as string), {
+    const url = queryKey[0] as string;
+
+    const res = await fetch(apiUrl(url), {
       credentials: "include",
+      mode: "cors",
     });
 
     if (unauthorizedBehavior === "returnNull" && res.status === 401) {
-      return null;
+      return null as T;
     }
 
     await throwIfResNotOk(res);
@@ -57,7 +69,7 @@ export const queryClient = new QueryClient({
       queryFn: getQueryFn({ on401: "throw" }),
       refetchInterval: false,
       refetchOnWindowFocus: false,
-      staleTime: Infinity,
+      staleTime: 0,
       retry: false,
     },
     mutations: {
