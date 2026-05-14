@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: kinglike-mobile/mobile-app/android
+        working-directory: mobile-app/android
 
     steps:
       - uses: actions/checkout@v4
