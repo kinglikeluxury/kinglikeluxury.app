@@ -30,7 +30,7 @@ import ChangePassword from "@/pages/change-password";
 import ForgotPassword from "@/pages/forgot-password";
 import PrivacyPolicy from "@/pages/privacy-policy";
 import Terms from "@/pages/terms";
-import PrivacyTerms from "@/pages/privacy-Policy";
+import PrivacyTerms from "@/pages/privacy-policy";
 import InstallPWA from "@/components/InstallPWA";
 import { useTranslation } from "react-i18next";
 import { useEffect } from "react";
