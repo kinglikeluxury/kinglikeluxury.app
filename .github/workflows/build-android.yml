@@ -38,27 +38,13 @@ jobs:
         run: |
           rm -f ./app/keystores/release.keystore
           mkdir -p ./app/keystores
-
-          keytool -genkeypair \
-            -v \
-            -keystore ./app/keystores/release.keystore \
-            -alias kinglikeluxury \
-            -keyalg RSA \
-            -keysize 2048 \
-            -validity 10000 \
-            -storepass Kinglike123 \
-            -keypass Kinglike123 \
-            -dname "CN=Kinglike Luxury, OU=Mobile Development, O=Kinglike Luxury Real Estate, L=Tbilisi, S=Georgia, C=GE"
+          keytool -genkeypair -v -keystore ./app/keystores/release.keystore -alias kinglikeluxury -keyalg RSA -keysize 2048 -validity 10000 -storepass Kinglike123 -keypass Kinglike123 -dname "CN=Kinglike Luxury, OU=Mobile Development, O=Kinglike Luxury Real Estate, L=Tbilisi, S=Georgia, C=GE" -noprompt
 
       - name: Build APK (debug)
-        run: |
-          chmod +x ./gradlew
-          ./gradlew assembleDebug
+        run: ./gradlew assembleDebug
 
       - name: Build APK (release)
-        run: |
-          chmod +x ./gradlew
-          ./gradlew assembleRelease
+        run: ./gradlew assembleRelease
 
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4
