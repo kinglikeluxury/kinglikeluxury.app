@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: mobile-app/android
+        working-directory: kinglike-mobile/mobile-app/android
 
     steps:
       - uses: actions/checkout@v4
@@ -33,8 +33,8 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Make Gradle executable
-        run: chmod +x gradlew
+      - name: Build APK (debug)
+        run: ./gradlew assemleDebug
 
       - name: Generate Keystore
         run:
@@ -51,12 +51,10 @@ jobs:
             -storetype JKS
 
       - name: Build APK (debug)
-        run: |
-          ./gradlew assembleDebug
+        run: ./gradlew assembleDebug
 
       - name: Build APK (release)
-        run: |
-          ./gradlew assembleRelease
+        run: ./gradlew assembleRelease
 
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4
