@@ -37,7 +37,7 @@ jobs:
         run: chmod +x android/gradlew
 
       - name: Generate Keystore
-        run: |
+        run: chmod +x ./android/gradlew
           mkdir -p ./android/app/keystores
           keytool -genkeypair \
             -dname "CN=Kinglike Luxury, OU=Mobile Development, O=Kinglike Luxury Real Estate, L=Tbilisi, S=Georgia, C=GE" \
